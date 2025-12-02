@@ -9,7 +9,7 @@ import (
 func newUCIEngine(stockfishPath string) (*uci.Engine, error) {
 	eng, err := uci.New(stockfishPath)
 	if err != nil {
-		return nil, fmt.Errorf("failed to start engine: %w", err)
+		panic(err)
 	}
 	return eng, nil
 }
