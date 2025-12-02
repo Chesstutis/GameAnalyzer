@@ -1,8 +1,6 @@
 package gameanalyzer
 
 import (
-	"fmt"
-
 	"github.com/notnil/chess/uci"
 )
 
