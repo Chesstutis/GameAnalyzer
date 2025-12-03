@@ -2,6 +2,7 @@ package engine
 
 import (
 	"fmt"
+	"github.com/notnil/chess"
 	gameanalyzer "github.com/Chesstutis/GameAnalyzer"
 )
 
@@ -19,5 +20,5 @@ func AnalyzePosition(fen string, playerMove string, stockfishPath string) (*Engi
 // finds the chess.Move object corresponding to the players move
 func parseMove(pos *chess.Position, moveStr string) (chess.Move, error) {
 
-	return nil, fmt.Errorf("not implemented")
+	return chess.Move{}, fmt.Errorf("not implemented")
 }
