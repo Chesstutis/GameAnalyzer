@@ -3,6 +3,8 @@ package engine
 import (
 	"fmt"
 	"github.com/notnil/chess"
+	"github.com/notnil/chess/uci"
+
 	gameanalyzer "github.com/Chesstutis/GameAnalyzer"
 )
 
@@ -14,6 +16,16 @@ type EngineAnalysis struct {
 
 // finds the best move in the position as well as the analysis for the players move
 func AnalyzePosition(fen string, playerMove string, stockfishPath string) (*EngineAnalysis, error) {
+	eng, err := uci.New(stockfishPath)
+	if err != nil {
+		return nil, fmt.Errorf("failed to start engine: %w", err)
+	}
+	defer eng.Close()
+
+	// 1. analyze engine move
+
+	// 2. analyve player move
+
 	return nil, fmt.Errorf("not implemented")
 }
 

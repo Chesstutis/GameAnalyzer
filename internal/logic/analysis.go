@@ -31,6 +31,6 @@ func CalculateAccuracy() int {
 	return 0
 }
 
-func isPuzzleWorthy(classification string) bool {
-	return classification == "Mistake" || classification == "Blunder"
+func isPuzzleWorthy(classification string) bool {                                        // Miss - not yet implemented
+	return classification == "Mistake" || classification == "Blunder" || classification == "Miss"
 }
