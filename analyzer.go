@@ -1,16 +1,23 @@
 // public API for game analyzer
 package gameanalyzer
 
-type Analyzer struct { 
-	// path to stockfish executable
-	stockfishPath string
+import (
+	"github.com/Chesstutis/GameAnalyzer/internal/config"
+)
+
+type Analyzer struct {
 }
 
 // creates a new game analyzer
-func NewAnalyzer(stockfishPath string) (*Analyzer, error) {
-	// check for stockfish path then 
-	return nil, nil
+func NewAnalyzer() (*Analyzer, error) {
+	_, err := config.MustStockfishPath()
+	if err != nil {
+		return nil, err
+	}
+	return &Analyzer{}, nil
 }
+
+
 
 // analyzes the game pgn using internal/parser/pgn.go and returns a AnalysisResult
 func (a *Analyzer) AnalyzeGame(pgnString string) (*AnalysisResult, error) {
