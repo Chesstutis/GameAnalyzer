@@ -130,4 +130,5 @@ func TestAnalyzePosition_InvalidPlayerMove_Error(t *testing.T) {
     if err == nil {
         t.Fatalf("expected error for invalid player move, got nil")
     }
+	
 }
