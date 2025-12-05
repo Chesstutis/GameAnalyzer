@@ -22,13 +22,13 @@ func init() {
     _ = godotenv.Load(envPath)
 
     // read env var
-    EnginePath = os.Getenv("STOCKFISH_PATH")
+    EnginePath = os.Getenv("ENGINE_PATH")
 }
 
 // MustStockfishPath returns the path or an error when not set.
 func MustStockfishPath() (string, error) {
     if EnginePath == "" {
-        return "", fmt.Errorf("STOCKFISH_PATH not set in .env or environment")
+        return "", fmt.Errorf("ENGINE_PATH not set in .env or environment")
     }
     return EnginePath, nil
 }
