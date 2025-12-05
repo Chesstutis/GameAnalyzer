@@ -23,7 +23,8 @@ func ClassifyMove(cpl int) string {
 	case cpl <= 50: return "Excellent"
 	case cpl <= 100: return "Inaccuracy"
 	case cpl <= 250: return "Mistake"
-	default: return "Blunder"
+	case cpl <= 10000: return "Blunder"
+	default: return "Miss"
 	}
 }
 

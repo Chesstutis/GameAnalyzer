@@ -11,16 +11,19 @@ type ParsedMove struct {
 	Move string
 }
 
-func Parse(pgn string) ([]ParsedMove, error) {
-	// js like parse type scriiiipt
+func ParsePGN(pgn string) ([]ParsedMove, error) {
+	if pgn == "" {
+        return nil, fmt.Errorf("empty PGN")
+    }
+
 	reader := strings.NewReader(pgn)
-	PGN, err := chess.PGN(reader)
+	parsedPgn, err := chess.PGN(reader)
 	
 	if err != nil {
-		fmt.Println(err)
+		return nil, fmt.Errorf("problem reading FEN")
 	}
 	
-	game := chess.NewGame(PGN)
+	game := chess.NewGame(parsedPgn)
 	game_postions := game.Positions()
 	game_moves := game.Moves()
 	ret := make([]ParsedMove, len(game_moves)+1)
@@ -28,7 +31,6 @@ func Parse(pgn string) ([]ParsedMove, error) {
 	for i , j := range game_moves{
 		ret[i] = ParsedMove{FEN: game_postions[i + 1].String(), Move: j.String()}
 	}
-
 	
-	return ret, fmt.Errorf("not Implemented")
+	return ret, nil
 }

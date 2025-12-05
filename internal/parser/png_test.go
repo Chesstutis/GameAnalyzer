@@ -7,9 +7,9 @@ import (
 func TestParseSimpleGame(t *testing.T) {
 	pgn := `1. e4 e5 2. Nf3 Nc6 3. Bb5 a6`
 
-	moves, err := Parse(pgn)
-	if err == nil {
-		t.Fatalf("expected not implemented error, got nil")
+	moves, err := ParsePGN(pgn)
+	if err != nil {
+		t.Fatalf("error-jamin")
 	}
 
 	if len(moves) == 0 {
@@ -41,9 +41,21 @@ func TestParseSimpleGame(t *testing.T) {
 	if fourth.Move != "b8c6"{
 		t.Errorf("expected third move 'b8c6', got '%s'", fourth.Move)
 	}
-
-
-	
 }
 
+func TestParsePGN_Empty(t *testing.T) {
+    pgn := ""
+
+    moves, err := ParsePGN(pgn)
+    
+    // empty pgn should return an error (not implemented)
+    if err == nil {
+        t.Fatalf("expected error for empty pgn, got nil")
+    }
+    
+    // empty pgn should return no moves
+    if len(moves) > 0 {
+        t.Fatalf("expected 0 moves for empty pgn, got %d", len(moves))
+    }
+}
 
