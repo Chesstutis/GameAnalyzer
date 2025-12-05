@@ -62,3 +62,4 @@ type EvaluatedMove struct {
 	// engines score in centipawns
 	Evaluation int
 }
+
