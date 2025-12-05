@@ -3,8 +3,6 @@
 package logic
 
 import (
-	"fmt"
-
 	"github.com/Chesstutis/GameAnalyzer/internal/types"
 )
 
@@ -19,7 +17,6 @@ func ProcessMove(bestMove types.EvaluatedMove, playerMove types.EvaluatedMove, i
             cpl = -cpl // make it positive
         }
 	}
-	fmt.Printf("CPL: %v\n\n", cpl)
 
 	classification := ClassifyMove(cpl)
 

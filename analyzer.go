@@ -2,7 +2,7 @@
 package gameanalyzer
 
 import (
-	"log"
+	"fmt"
 
 	"github.com/Chesstutis/GameAnalyzer/internal/config"
 	"github.com/Chesstutis/GameAnalyzer/internal/engine"
@@ -32,13 +32,13 @@ func (a *Analyzer) AnalyzeGame(pgnString string) (*types.AnalysisResult, error) 
 	parsedMoves, err := parser.ParsePGN(pgnString)
 
 	if err != nil {
-		log.Fatalf("failed to parse PGN %v", err)
+		return nil, fmt.Errorf("failed to parse PGN %v", err)
 	}
 
 	for i, m := range parsedMoves {
 		analysis, err := engine.AnalyzePosition(m.FEN, m.Move)
 		if err != nil {
-			log.Fatalf("error analyzing position %v", err)
+			return nil, fmt.Errorf("error analyzing position %v", err)
 		}
 
 		stat := logic.ProcessMove(analysis.BestMove, analysis.PlayerMove, i % 2 == 0)
@@ -54,7 +54,6 @@ func (a *Analyzer) AnalyzeGame(pgnString string) (*types.AnalysisResult, error) 
 			})
 		}
 	}
-
 
 	result := &types.AnalysisResult{
 		Accuracy: 0,
