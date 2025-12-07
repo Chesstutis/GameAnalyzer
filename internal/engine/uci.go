@@ -7,17 +7,12 @@ import (
 	"github.com/notnil/chess"
 	"github.com/notnil/chess/uci"
 
-	gameanalyzer "github.com/Chesstutis/GameAnalyzer"
 	"github.com/Chesstutis/GameAnalyzer/internal/config"
+	"github.com/Chesstutis/GameAnalyzer/internal/types"
 )
 
-type EngineAnalysis struct {
-	BestMove   gameanalyzer.EvaluatedMove
-	PlayerMove gameanalyzer.EvaluatedMove
-}
-
 // finds the best move in the position as well as the analysis for the players move
-func AnalyzePosition(fen string, playerMove string) (_ *EngineAnalysis, err error) {
+func AnalyzePosition(fen string, playerMove string) (_ *types.EngineAnalysis, err error) {
 	// make new UCI engine
 	eng, err := uci.New(config.EnginePath)
 	if err != nil {
@@ -65,7 +60,7 @@ func AnalyzePosition(fen string, playerMove string) (_ *EngineAnalysis, err erro
 	} 
 	playerMoveEval := CheckSolvedPos(eng.SearchResults(), playerMove)
 
-	return &EngineAnalysis{
+	return &types.EngineAnalysis{
 		BestMove: *bestMoveEval,
 		PlayerMove: *playerMoveEval,
 	}, nil
@@ -84,15 +79,15 @@ func parseMove(pos *chess.Position, moveStr string) (*chess.Move, error) {
 }
 
 
-func CheckSolvedPos(results uci.SearchResults, move string) *gameanalyzer.EvaluatedMove {
+func CheckSolvedPos(results uci.SearchResults, move string) *types.EvaluatedMove {
 	
 	if results.Info.Score.Mate != 0 { // position is solved (forced mate/draw)
-		return &gameanalyzer.EvaluatedMove{
+		return &types.EvaluatedMove{
 			Move: move,
 			Evaluation: 1000000,
 		}
 	} else {
-		return &gameanalyzer.EvaluatedMove{
+		return &types.EvaluatedMove{
 			Move: move,
 			Evaluation: results.Info.Score.CP,
 		}
