@@ -18,28 +18,28 @@ func TestParseSimpleGame(t *testing.T) {
 
 	// Check first move
 	first := moves[0]
-	if first.Move != "e2e4" {
-		t.Errorf("expected first move 'e4', got '%s'", first.Move)
+	if first.Move.String() != "e2e4" {
+		t.Errorf("expected first move 'e4', got '%s'", first.Move.String())
 	}
-	if first.FEN == "" {
+	if first.Position.String() == "" {
 		t.Errorf("expected FEN for first move, got empty string")
 	}
 
 	// Check second move
 	second := moves[1]
-	if second.Move != "e7e5" {
-		t.Errorf("expected second move 'e5', got '%s'", second.Move)
+	if second.Move.String() != "e7e5" {
+		t.Errorf("expected second move 'e5', got '%s'", second.Move.String())
 	}
 
 	thrid := moves[2]
-	if thrid.Move !=  "g1f3"{
-		t.Errorf("expected third move 'g1f3', got '%s'", thrid.Move)
+	if thrid.Move.String() !=  "g1f3" {
+		t.Errorf("expected third move 'g1f3', got '%s'", thrid.Move.String())
 
 	}
 
 	fourth := moves[3]
-	if fourth.Move != "b8c6"{
-		t.Errorf("expected third move 'b8c6', got '%s'", fourth.Move)
+	if fourth.Move.String() != "b8c6"{
+		t.Errorf("expected third move 'b8c6', got '%s'", fourth.Move.String())
 	}
 }
 

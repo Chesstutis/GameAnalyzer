@@ -1,19 +1,22 @@
 package types
 
+import (
+	"github.com/notnil/chess"
+)
 type ParsedMove struct {
-    FEN  string
-    Move string
+    Position  chess.Position
+    Move      chess.Move
 }
 
 type EvaluatedMove struct {
-    Move       string
+    Move       chess.Move
     Evaluation int
 }
 
 type MoveStat struct {
-    Move           string
+    Move           chess.Move
     CentipawnLoss  int
-    Classification string
+    Classification MoveClass
 }
 
 type EngineAnalysis struct {
@@ -22,10 +25,10 @@ type EngineAnalysis struct {
 }
 
 type Puzzle struct {
-    FEN             string
-    BestMove        string
-    PlayerMove      string
-    Classification  string
+    Position        chess.Position
+    BestMove        chess.Move
+    PlayerMove      chess.Move
+    Classification  MoveClass
 }
 
 type AnalysisResult struct {
@@ -33,3 +36,15 @@ type AnalysisResult struct {
     Puzzles   []Puzzle
     MoveStats []MoveStat
 }
+
+type MoveClass string
+
+const (
+	Best       MoveClass = "Best"
+	Excellent  MoveClass = "Excellent"
+	Good       MoveClass = "Good"
+	Innacuracy MoveClass = "Innacuracy"
+	Mistake    MoveClass = "Mistake"
+	Blunder    MoveClass = "Blunder"
+	Miss       MoveClass = "Miss"
+)

@@ -37,12 +37,11 @@ func TestWhiteBlundersQueen(t *testing.T) {
 		t.Fatalf("problem analyzing game %v", err)
 	}
 	
-	fmt.Printf("Puzzles: %v\n\n", gameResult.Puzzles)
+	fmt.Printf("Puzzles: %v\n\n", gameResult.Puzzles[0].Position)
 	fmt.Printf("MoveStats: %v\n\n", gameResult.MoveStats)
 }
 
 func TestAlexBlunders(t *testing.T) {
-	
 	a, err := NewAnalyzer()
 	if err != nil {
 		t.Fatalf("problem creating analyzer %v", err)

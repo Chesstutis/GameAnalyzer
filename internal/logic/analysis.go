@@ -27,13 +27,13 @@ func ProcessMove(bestMove types.EvaluatedMove, playerMove types.EvaluatedMove, i
 	}
 }
 
-func ClassifyMove(cpl int) string {
+func ClassifyMove(cpl int) types.MoveClass {
 	switch {
-	case cpl <= 15: return "Best"
-	case cpl <= 50: return "Excellent"
-	case cpl <= 100: return "Inaccuracy"
-	case cpl <= 250: return "Mistake"
-	default: return "Blunder"
+	case cpl <= 15: return  types.Best
+	case cpl <= 50: return  types.Excellent
+	case cpl <= 100: return types.Innacuracy
+	case cpl <= 250: return types.Mistake
+	default: return types.Blunder
 	}
 }
 
@@ -41,6 +41,8 @@ func CalculateAccuracy() int {
 	return 0
 }
 
-func IsPuzzleWorthy(classification string) bool {                                    //TODO Miss not yet implemented
-	return classification == "Mistake" || classification == "Blunder" || classification == "Miss"
+func IsPuzzleWorthy(classification types.MoveClass) bool {
+	return classification == types.Mistake || 
+	       classification == types.Blunder || 
+		   classification == types.Miss
 }

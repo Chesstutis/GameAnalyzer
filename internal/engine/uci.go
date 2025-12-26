@@ -12,8 +12,10 @@ import (
 )
 
 // finds the best move in the position as well as the analysis for the players move
-func AnalyzePosition(fen string, playerMove string) (_ *types.EngineAnalysis, err error) {
+func AnalyzePosition(position chess.Position, playerMove chess.Move) (_ *types.EngineAnalysis, err error) {
 	// make new UCI engine
+	fen := position.String()
+
 	eng, err := uci.New(config.EnginePath)
 	if err != nil {
 		err = fmt.Errorf("failed to start engine: %w", err)
@@ -40,7 +42,7 @@ func AnalyzePosition(fen string, playerMove string) (_ *types.EngineAnalysis, er
 	}
 	bestSearchResults := eng.SearchResults()
 
-	bestMoveEval := CheckSolvedPos(bestSearchResults, bestSearchResults.BestMove.String())
+	bestMoveEval := CheckSolvedPos(bestSearchResults, *bestSearchResults.BestMove)
 	
 	// ------------------------------------
 	// --- 2. --- Analyze Player Move -----
@@ -51,7 +53,7 @@ func AnalyzePosition(fen string, playerMove string) (_ *types.EngineAnalysis, er
 	}
 
 	cmdGoPlayer := uci.CmdGo{
-		MoveTime: time.Second,
+		MoveTime:    time.Second,
 		SearchMoves: []*chess.Move{playerMoveObj}, // forces eval on player move
 	}
 
@@ -61,34 +63,33 @@ func AnalyzePosition(fen string, playerMove string) (_ *types.EngineAnalysis, er
 	playerMoveEval := CheckSolvedPos(eng.SearchResults(), playerMove)
 
 	return &types.EngineAnalysis{
-		BestMove: *bestMoveEval,
+		BestMove:   *bestMoveEval,
 		PlayerMove: *playerMoveEval,
 	}, nil
 }
 
 
 // finds the chess.Move object corresponding to the players move
-func parseMove(pos *chess.Position, moveStr string) (*chess.Move, error) {
+func parseMove(pos *chess.Position, move chess.Move) (*chess.Move, error) {
 	validMoves := pos.ValidMoves()
 	for _, m := range validMoves {
-		if m.String() == moveStr {
+		if m.String() == move.String() {
 			return m, nil
 		}
 	}
-	return nil, fmt.Errorf("no valid move matching '%s' found in FEN: %s", moveStr, pos.Board().Draw())
+	return nil, fmt.Errorf("no valid move matching '%s' found in FEN: %s", move.String(), pos.Board().Draw())
 }
 
 
-func CheckSolvedPos(results uci.SearchResults, move string) *types.EvaluatedMove {
-	
+func CheckSolvedPos(results uci.SearchResults, move chess.Move) *types.EvaluatedMove {
 	if results.Info.Score.Mate != 0 { // position is solved (forced mate/draw)
 		return &types.EvaluatedMove{
-			Move: move,
-			Evaluation: 1000000,
+			Move:       move,
+			Evaluation: 1000000, //! idk about this
 		}
 	} else {
 		return &types.EvaluatedMove{
-			Move: move,
+			Move:       move,
 			Evaluation: results.Info.Score.CP,
 		}
 	}

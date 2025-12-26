@@ -11,9 +11,7 @@ import (
 	"github.com/Chesstutis/GameAnalyzer/internal/types"
 )
 
-type Analyzer struct {
-
-}
+type Analyzer struct {}
 
 // creates a new game analyzer
 func NewAnalyzer() (*Analyzer, error) {
@@ -26,8 +24,8 @@ func NewAnalyzer() (*Analyzer, error) {
 
 // analyzes the game pgn using internal/parser/pgn.go and returns a AnalysisResult
 func (a *Analyzer) AnalyzeGame(pgnString string) (*types.AnalysisResult, error) {
-	var allPuzzles []types.Puzzle
-	var allMoveEvals []types.MoveStat // used for game review
+	var allPuzzles   []types.Puzzle
+	var allMoveEvals []types.MoveStat
 
 	parsedMoves, err := parser.ParsePGN(pgnString)
 
@@ -36,7 +34,7 @@ func (a *Analyzer) AnalyzeGame(pgnString string) (*types.AnalysisResult, error) 
 	}
 
 	for i, m := range parsedMoves {
-		analysis, err := engine.AnalyzePosition(m.FEN, m.Move)
+		analysis, err := engine.AnalyzePosition(m.Position, m.Move)
 		if err != nil {
 			return nil, fmt.Errorf("error analyzing position %v", err)
 		}
@@ -47,17 +45,17 @@ func (a *Analyzer) AnalyzeGame(pgnString string) (*types.AnalysisResult, error) 
 
 		if logic.IsPuzzleWorthy(stat.Classification) {
 			allPuzzles = append(allPuzzles, types.Puzzle{
-				FEN: m.FEN,
-				BestMove: analysis.BestMove.Move,
-				PlayerMove: m.Move,
+				Position:            m.Position,
+				BestMove:       analysis.BestMove.Move,
+				PlayerMove:     m.Move,
 				Classification: stat.Classification,
 			})
 		}
 	}
 
 	result := &types.AnalysisResult{
-		Accuracy: 0,
-		Puzzles: allPuzzles,
+		Accuracy:  0,
+		Puzzles:   allPuzzles,
 		MoveStats: allMoveEvals,
 	}
 	return result, nil

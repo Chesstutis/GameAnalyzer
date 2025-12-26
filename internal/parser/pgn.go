@@ -4,16 +4,12 @@ import (
 	"fmt"
 	"strings"
 
-
 	"github.com/notnil/chess"
+
+	"github.com/Chesstutis/GameAnalyzer/internal/types"
 )
 
-type ParsedMove struct {
-	FEN  string
-	Move string
-}
-
-func ParsePGN(pgn string) ([]ParsedMove, error) {
+func ParsePGN(pgn string) ([]types.ParsedMove, error) {
 	if pgn == "" {
 		return nil, fmt.Errorf("empty PGN")
 	}
@@ -28,10 +24,10 @@ func ParsePGN(pgn string) ([]ParsedMove, error) {
 	game := chess.NewGame(parsedPgn)
 	game_positions := game.Positions()
 	game_moves := game.Moves()
-	ret := make([]ParsedMove, len(game_moves))
+	ret := make([]types.ParsedMove, len(game_moves))
 
 	for i, j := range game_moves {
-		ret[i] = ParsedMove{FEN: game_positions[i].String(), Move: j.String()}
+		ret[i] = types.ParsedMove{Position: *game_positions[i], Move: *j}
 	}
 
 	return ret, nil
